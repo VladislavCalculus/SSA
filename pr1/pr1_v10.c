@@ -78,7 +78,7 @@ int main() {
 
 	date tdy = {d, m, y};
 	date tmrw = get_tomorrow(tdy, clt);
-	printf("Tommorrow: %02d.%02d.%04d\nCalendar: %s", tmrw.day, tmrw.month, tmrw.year, clt==1 ? "Julian" : "Gregorian");
+	printf("Tommorrow: %02d.%02d.%04d\nCalendar: %s\n", tmrw.day, tmrw.month, tmrw.year, clt==1 ? "Julian" : "Gregorian");
 	return 0;
 }
 
