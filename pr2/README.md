@@ -45,6 +45,79 @@ NULL поінтер коли значення занадто велике щоб
 
 ## Завдання 2
 
+###Опис завдання
+
+Розглянути сенгменти на прикладі просто виконуваємого файлу.
+
+Підзавдання:
+
+- Звичайний файл з "Hello world!"
+- Додати до файлу глобальний масив, пустий
+- Заповнити глобальний масив
+- Зробити масив локальним
+- Перевірити зміни при іншому виді компіляції (для прикладу: прапорець -g)
+
+### Опис рішення
+Підбиваючи підсумки до завдання можна виділити:
+
+- Сегмент data збільшує фізичний розмір на диску, бо зберігає фактичні дані
+- Сегмент BSS збільшує значення в таблиці розмірів, але сам файл при цьому не 
+збільшується
+- Debug та Оптимізація (-O) не мали помітного впливу на роботу програми
+
+### Результати виконання
+
+Нижче наведені результати команд ls -l та size для кожного з варіантів 
+виконання завдання.
+
+##### Підзавдання 1
+
+```
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ ls -l z2
+-rwxrwxr-x 1 adminmint adminmint 15960 Feb 12 09:07 z2
+
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ size z2
+   text	   data	    bss	    dec	    hex	filename
+   1376	    600	      8	   1984	    7c0	z2
+ 
+
+##### Підзавдання 2
+
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ ls -l z2
+-rwxrwxr-x 1 adminmint adminmint 15984 Feb 12 09:14 z2
+
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ size z2
+   text	   data	    bss	    dec	    hex	filename
+   1376	    600	   4032	   6008	   1778	z2
+
+##### Підзавдання 3
+
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ ls -l z2
+-rwxrwxr-x 1 adminmint adminmint 20000 Feb 12 09:16 z2
+
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ size z2
+   text	   data	    bss	    dec	    hex	filename
+   1376	   4616	      8	   6000	   1770	z2
+
+
+##### Підзавдання 4
+
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ ls -l z2
+-rwxrwxr-x 1 adminmint adminmint 16008 Feb 12 09:17 z2
+
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ size z2
+   text	   data	    bss	    dec	    hex	filename
+   1576	    608	      8	   2192	    890	z2
+
+
+##### Підзавдання 5
+
+В результаті тестування з ключовим словом -g (Debug) помітних змін за 
+допомогою size та ls -l визначити не вдалось
+
+```
+####
+
 ## Завдання 3
 
 ## Завдання 4
