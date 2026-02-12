@@ -171,6 +171,98 @@ BSS: 0x625635b73018
 
 ## Завдання 4
 
+### Опис завдання
+
+Ваше завдання - дослідити стек процесу або пригадати, як це робиться.
+
+### Опис рішення
+
+В даному завданні важливо скомпілювати програму з увімкненим Debug. 
+Тобто, компіляція буде виклядати як:
+
+> gcc -Wall -g z4.c -o z4
+
+Після компіляції запускаємо програму в окремому вікні терміналу - 
+вона повинна працювати у фоні, щоб ми могли проаналізувати до цього процесу. 
+
+> ./z4 &
+
+Тепер, в окремому терміналі нам необідно знайти ідентифікатор процесу 
+за допомогою команди pidof
+
+>pidof z4
+
+*Приклад*:
+
+```
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ pidof z4
+3941
+```
+
+Результатом виконання буде число. За допомогою нього ми можемо підключитися 
+до процесу, але оскільки Ubuntu має захист процесів - підключатися варто за 
+допомогою sudo.
+
+> sudo gdb -q -p {PROSSES_NUM}
+
+В результаті можна буде побачити стек від #0 (pause) і до #4 (main).
+
+*Приклад*:
+
+```
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ sudo gdb -q -p 3941
+[sudo] password for adminmint:       
+Attaching to process 3941
+Reading symbols from /home/adminmint/asp_u/pr2/z4...
+Reading symbols from /lib/x86_64-linux-gnu/libc.so.6...
+Reading symbols from /usr/lib/debug/.build-id/27/4eec488d230825a136fa9c4d85370fed7a0a5e.debug...
+Reading symbols from /lib64/ld-linux-x86-64.so.2...
+Reading symbols from /usr/lib/debug/.build-id/52/0e05878220fb2fc6d28ff46b63b3fd5d48e763.debug...
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+0x00007a1145efa3d4 in __libc_pause () at ../sysdeps/unix/sysv/linux/pause.c:29
+
+warning: 29	../sysdeps/unix/sysv/linux/pause.c: No such file or directory
+(gdb) bt
+#0  0x00007a1145efa3d4 in __libc_pause ()
+    at ../sysdeps/unix/sysv/linux/pause.c:29
+#1  0x000060579f72b224 in bar_is_now_closed () at z4.c:12
+#2  0x000060579f72b287 in bar () at z4.c:18
+#3  0x000060579f72b2ea in foo () at z4.c:24
+#4  0x000060579f72b354 in main (argc=1, argv=0x7ffe6cdc8088) at z4.c:30
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [process 3941] will be detached.
+
+Quit anyway? (y or n) y
+Detaching from program: /home/adminmint/asp_u/pr2/z4, process 3941
+[Inferior 1 (process 3941) detached]
+
+```
+
+Наступним кроком буде дослідження за допомогою gstack, аналогічно 
+минулому варіанту - запуск виконується через sudo.
+
+> sudo gstack {PROSSES_NUM}
+
+*NOTE*: gstack може бути відсутній на машині, тому можливо його доведеться 
+доставити вручну (як, наприклад, на цьому Linux Mint)
+
+Важливо примітити, що між gstack і захистом Ubuntu може бути конфлікт - 
+в такому разі варто досліджувати мануальним шляхом, як наведено вище.
+Прикладом такого є локальна машина на якій виконувалася ця лабораторна, 
+адже вона не пропускає автоматичний gtack (в моєму разі pstack) до процесу.
+
+```
+adminmint@adminmint-VirtualBox:~/asp_u/pr2$ sudo pstack 3941
+
+3941: ./z4
+pstack: Input/output error
+failed to read target.
+
+```
+
 ## Завдання 5
 
 ## Завдання 6
